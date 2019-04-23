@@ -7,5 +7,7 @@ namespace HappyStudio.Parsing.Subtitle.Interfaces
         TimeSpan StartTime { get; set; }
         TimeSpan? EndTime { get; set; }
         string Content { get; set; }
+
+        string ToString();
     }
 }

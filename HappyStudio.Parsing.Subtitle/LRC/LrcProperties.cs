@@ -8,12 +8,20 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 {
     public class LrcProperties : ISubtitleBlockProperties
     {
-        private static readonly Regex PropertyRege = new Regex(@"\[(?<key>\D+?)\:(?<value>.+)\]");
+        private static readonly Regex PropertyRege = new Regex(@"\[(?<key>\D+?)\:(?<value>.+?)\]");
         private readonly Dictionary<string, string> _allProperties = new Dictionary<string, string>();
 
         public LrcProperties()
         {
         }
+
+        public LrcProperties(string input)
+        {
+            var matches = PropertyRege.Matches(input);
+            foreach (Match item in matches)
+                _allProperties[item.Groups["key"].Value] = item.Groups["value"].Value;
+        }
+
         public string Title
         {
             get => GetProperty("ti");
@@ -48,13 +56,6 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         {
             get => GetProperty("ve");
             set => SetProperty("ve", value);
-        }
-
-        public LrcProperties(string input)
-        {
-            var matches = PropertyRege.Matches(input);
-            foreach (Match item in matches)
-                _allProperties[item.Groups["key"].Value] = item.Groups["value"].Value;
         }
 
         public string GetProperty(string key)

@@ -56,13 +56,23 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 
         public int Offset
         {
-            get => Int32.Parse(GetProperty(OffsetTag).Replace("+", String.Empty));
+            get
+            {
+                try
+                {
+                    return Int32.Parse(GetProperty(OffsetTag).Replace("+", String.Empty));
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
             set
             {
                 if (value >= 0)
-                    SetProperty(OffsetTag, $"+{value}");
+                    SetProperty(OffsetTag, $"+{value.ToString("D3").Substring(0, 3)}");
                 else
-                    SetProperty(OffsetTag, value.ToString());
+                    SetProperty(OffsetTag, value.ToString("D3").Substring(0, 4));
             }
         }
 

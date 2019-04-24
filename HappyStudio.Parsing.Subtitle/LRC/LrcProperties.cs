@@ -8,6 +8,13 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 {
     public class LrcProperties : ISubtitleBlockProperties
     {
+        public const string TitleTag = "ti";
+        public const string ArtistTag = "ar";
+        public const string AlbumTag = "al";
+        public const string MadeByTag = "by";
+        public const string EditorNameTag = "re";
+        public const string EditorVersionTag = "ve";
+
         private static readonly Regex PropertyRege = new Regex(@"\[(?<key>\D+?)\:(?<value>.+?)\]");
         private readonly Dictionary<string, string> _allProperties = new Dictionary<string, string>();
 
@@ -24,38 +31,38 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 
         public string Title
         {
-            get => GetProperty("ti");
-            set => SetProperty("ti", value);
+            get => GetProperty(TitleTag);
+            set => SetProperty(TitleTag, value);
         }
 
         public string Artist
         {
-            get => GetProperty("ar");
-            set => SetProperty("ar", value);
+            get => GetProperty(ArtistTag);
+            set => SetProperty(ArtistTag, value);
         }
 
         public string Album
         {
-            get => GetProperty("al");
-            set => SetProperty("al", value);
+            get => GetProperty(AlbumTag);
+            set => SetProperty(AlbumTag, value);
         }
 
         public string MadeBy
         {
-            get => GetProperty("by");
-            set => SetProperty("by", value);
+            get => GetProperty(MadeByTag);
+            set => SetProperty(MadeByTag, value);
         }
 
         public string EditorName
         {
-            get => GetProperty("re");
-            set => SetProperty("re", value);
+            get => GetProperty(EditorNameTag);
+            set => SetProperty(EditorNameTag, value);
         }
 
         public string EditorVersion
         {
-            get => GetProperty("ve");
-            set => SetProperty("ve", value);
+            get => GetProperty(EditorVersionTag);
+            set => SetProperty(EditorVersionTag, value);
         }
 
         public string GetProperty(string key)

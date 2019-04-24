@@ -7,9 +7,13 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 {
     public class LrcLine : ISubtitleLine
     {
-        public LrcLine(TimeSpan startTime, string content)
+        public LrcLine(TimeSpan startTime)
         {
             StartTime = startTime;
+        }
+
+        public LrcLine(TimeSpan startTime, string content) : this(startTime)
+        {
             Content = content;
         }
 

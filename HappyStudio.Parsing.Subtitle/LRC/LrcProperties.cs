@@ -12,6 +12,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         public const string ArtistTag = "ar";
         public const string AlbumTag = "al";
         public const string MadeByTag = "by";
+        public const string OffsetTag = "offset";
         public const string EditorNameTag = "re";
         public const string EditorVersionTag = "ve";
 
@@ -51,6 +52,18 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         {
             get => GetProperty(MadeByTag);
             set => SetProperty(MadeByTag, value);
+        }
+
+        public int Offset
+        {
+            get => Int32.Parse(GetProperty(OffsetTag).Replace("+", String.Empty));
+            set
+            {
+                if (value >= 0)
+                    SetProperty(OffsetTag, $"+{value}");
+                else
+                    SetProperty(OffsetTag, value.ToString());
+            }
         }
 
         public string EditorName

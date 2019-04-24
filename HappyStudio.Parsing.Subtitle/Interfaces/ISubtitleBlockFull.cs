@@ -6,6 +6,6 @@ namespace HappyStudio.Parsing.Subtitle.Interfaces
 {
     interface ISubtitleBlockFull : ISubtitleBlockBasic
     {
-        ISubtitleBlockProperties Properties { get; set; }
+        ISubtitleBlockProperties Properties { get; }
     }
 }

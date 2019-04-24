@@ -8,7 +8,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 {
     public class LrcProperties : ISubtitleBlockProperties
     {
-        private static readonly Regex PropertyRege = new Regex(@"\[(?<key>\D+)\:(?<value>.+)\]");
+        private static readonly Regex PropertyRege = new Regex(@"\[(?<key>\D+?)\:(?<value>.+)\]");
         private readonly Dictionary<string, string> _allProperties = new Dictionary<string, string>();
 
         public LrcProperties()

@@ -9,5 +9,8 @@ namespace HappyStudio.Parsing.Subtitle.Interfaces
         string GetProperty(string key);
         void SetProperty(string key, string value);
         string ToString();
+
+        /// <param name="firstOutputs">property keys that output first</param>
+        string ToString(params string[] firstOutputs);
     }
 }

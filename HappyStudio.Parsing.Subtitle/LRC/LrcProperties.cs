@@ -107,6 +107,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
             return ToString(TitleTag, ArtistTag, AlbumTag, MadeByTag, EditorNameTag, EditorVersionTag, OffsetTag);
         }
 
+        /// <param name="firstOutputs">property keys that output first</param>
         public string ToString(params string[] firstOutputs)
         {
             StringBuilder builder = new StringBuilder();

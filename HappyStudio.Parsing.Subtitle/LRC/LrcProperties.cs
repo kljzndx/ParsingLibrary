@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using HappyStudio.Parsing.Subtitle.Interfaces;
@@ -103,9 +104,26 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 
         public override string ToString()
         {
+            return ToString(TitleTag, ArtistTag, AlbumTag, MadeByTag, EditorNameTag, EditorVersionTag, OffsetTag);
+        }
+
+        public string ToString(params string[] firstOutputs)
+        {
             StringBuilder builder = new StringBuilder();
-            foreach (var item in _allProperties)
+            var dict = _allProperties.ToList();
+            foreach (var item in firstOutputs)
+            {
+                if (dict.FirstOrDefault(p => p.Key == item) is KeyValuePair<string, string> pair)
+                {
+                    builder.AppendLine($"[{pair.Key}:{pair.Value}]");
+                    dict.Remove(pair);
+                }
+            }
+
+            foreach (var item in dict)
+            {
                 builder.AppendLine($"[{item.Key}:{item.Value}]");
+            }
 
             return builder.ToString();
         }

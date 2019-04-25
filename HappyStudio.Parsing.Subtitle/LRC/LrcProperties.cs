@@ -111,13 +111,12 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         {
             StringBuilder builder = new StringBuilder();
             var dict = _allProperties.ToList();
-            foreach (var item in firstOutputs)
+
+            foreach (string key in firstOutputs.Where(k => dict.Any(p => p.Key == k)))
             {
-                if (dict.FirstOrDefault(p => p.Key == item) is KeyValuePair<string, string> pair)
-                {
-                    builder.AppendLine($"[{pair.Key}:{pair.Value}]");
-                    dict.Remove(pair);
-                }
+                var pair = dict.First(p => p.Key == key);
+                builder.AppendLine($"[{pair.Key}:{pair.Value}]");
+                dict.Remove(pair);
             }
 
             foreach (var item in dict)

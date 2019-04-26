@@ -11,6 +11,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
     {
         public const string TitleTag = "ti";
         public const string ArtistTag = "ar";
+        public const string AuthorTag = "au";
         public const string AlbumTag = "al";
         public const string MadeByTag = "by";
         public const string OffsetTag = "offset";
@@ -41,6 +42,12 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         {
             get => GetProperty(ArtistTag);
             set => SetProperty(ArtistTag, value);
+        }
+
+        public string Author
+        {
+            get => GetProperty(AuthorTag);
+            set => SetProperty(AuthorTag, value);
         }
 
         public string Album
@@ -104,7 +111,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 
         public override string ToString()
         {
-            return ToString(TitleTag, ArtistTag, AlbumTag, MadeByTag, EditorNameTag, EditorVersionTag, OffsetTag);
+            return ToString(TitleTag, ArtistTag, AuthorTag, AlbumTag, MadeByTag, EditorNameTag, EditorVersionTag, OffsetTag);
         }
 
         /// <param name="firstOutputs">property keys that output first</param>

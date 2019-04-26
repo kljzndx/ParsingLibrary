@@ -108,7 +108,10 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 
         public void SetProperty(string key, string value)
         {
-            _allProperties[key.Trim()] = value.Trim();
+            if (!String.IsNullOrWhiteSpace(value))
+                _allProperties[key.Trim()] = value.Trim();
+            else
+                _allProperties.Remove(key);
         }
 
         public override string ToString()

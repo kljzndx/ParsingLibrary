@@ -6,6 +6,8 @@ namespace HappyStudio.Parsing.Subtitle.Interfaces
 {
     public interface ISubtitleBlockProperties
     {
+        IEnumerable<KeyValuePair<string, string>> AllProperties { get; }
+
         string GetProperty(string key);
         void SetProperty(string key, string value);
         string ToString();

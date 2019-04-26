@@ -80,9 +80,9 @@ namespace HappyStudio.Parsing.Subtitle.LRC
             set
             {
                 if (value >= 0)
-                    SetProperty(OffsetTag, $"+{value.ToString("D3").Substring(0, 3)}");
+                    SetProperty(OffsetTag, $"+{value}");
                 else
-                    SetProperty(OffsetTag, value.ToString("D3").Substring(0, 4));
+                    SetProperty(OffsetTag, value.ToString());
             }
         }
 

@@ -79,8 +79,10 @@ namespace HappyStudio.Parsing.Subtitle.LRC
             }
             set
             {
-                if (value >= 0)
+                if (value > 0)
                     SetProperty(OffsetTag, $"+{value}");
+                else if (value == 0)
+                    SetProperty(OffsetTag, String.Empty);
                 else
                     SetProperty(OffsetTag, value.ToString());
             }

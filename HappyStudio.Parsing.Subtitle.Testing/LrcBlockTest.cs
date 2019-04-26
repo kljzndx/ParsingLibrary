@@ -16,5 +16,15 @@ namespace Tests
             bool b = lrcBlock.Lines.Count() == 5;
             Assert.AreEqual(a && b, true);
         }
+
+        [Test]
+        public void ToString()
+        {
+            string text = File.ReadAllText("./test.lrc");
+            LrcBlock lrcBlock = new LrcBlock(text);
+            ((LrcProperties)lrcBlock.Properties).Offset = -300;
+            string result = lrcBlock.ToString();
+            Assert.IsNotEmpty(result);
+        }
     }
 }

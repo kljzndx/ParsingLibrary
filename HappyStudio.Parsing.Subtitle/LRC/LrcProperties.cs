@@ -32,6 +32,8 @@ namespace HappyStudio.Parsing.Subtitle.LRC
                 _allProperties[item.Groups["key"].Value] = item.Groups["value"].Value;
         }
 
+        public IEnumerable<KeyValuePair<string, string>> AllProperties => _allProperties;
+
         public string Title
         {
             get => GetProperty(TitleTag);

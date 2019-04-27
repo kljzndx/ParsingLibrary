@@ -15,7 +15,7 @@ namespace HappyStudio.Parsing.Subtitle.Testing
         {
             string content = File.ReadAllText("./test.srt");
             SrtBlock block = new SrtBlock(content);
-            Assert.Greater(block.Lines.Count(), 10);
+            Assert.Greater(block.Lines.Count(), 9);
         }
     }
 }

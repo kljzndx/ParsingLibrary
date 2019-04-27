@@ -36,8 +36,8 @@ namespace HappyStudio.Parsing.Subtitle.SRT
 
         public override string ToString()
         {
-            string st = StartTime.ToString(@"hh\:mm\:ss\.fff");
-            string et = EndTime.Value.ToString(@"hh\:mm\:ss\.fff");
+            string st = StartTime.ToString(@"hh\:mm\:ss\,fff");
+            string et = EndTime.Value.ToString(@"hh\:mm\:ss\,fff");
 
             return $"{st} --> {et}" + Environment.NewLine + Content;
         }

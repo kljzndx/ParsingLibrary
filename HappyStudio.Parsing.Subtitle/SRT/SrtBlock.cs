@@ -44,8 +44,8 @@ namespace HappyStudio.Parsing.Subtitle.SRT
                 if (line.Contains("-->"))
                 {
                     string[] times = line.Split(' ');
-                    TimeSpan startTime = TimeSpan.Parse(times[0]);
-                    TimeSpan endTime = TimeSpan.Parse(times[2]);
+                    TimeSpan startTime = TimeSpan.Parse(times[0].Replace(',', '.'));
+                    TimeSpan endTime = TimeSpan.Parse(times[2].Replace(',', '.'));
 
                     srtLine = new SrtLine(startTime, endTime);
                 }

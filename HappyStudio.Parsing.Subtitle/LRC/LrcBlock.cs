@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using HappyStudio.Parsing.Subtitle.Extensions;
 using HappyStudio.Parsing.Subtitle.Interfaces;
 
 namespace HappyStudio.Parsing.Subtitle.LRC
@@ -24,8 +25,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
             _properties = new LrcProperties(lrcFileContent);
             _lines = new List<LrcLine>();
 
-            bool hasNewLineSymbol = lrcFileContent.Contains("\n");
-            string[] lines = lrcFileContent.Trim().Split(hasNewLineSymbol ? '\n' : '\r');
+            string[] lines = lrcFileContent.ToLines();
 
             LrcLine lrcLine = null;
             StringBuilder contentBuilder = new StringBuilder();

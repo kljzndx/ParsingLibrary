@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using HappyStudio.Parsing.Subtitle.LRC;
 
-namespace Tests
+namespace HappyStudio.Parsing.Subtitle.Testing
 {
     public class LrcBlockTest
     {

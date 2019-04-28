@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard1.3</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Company>HappyStudio</Company>
     <Authors>快乐工作室</Authors>

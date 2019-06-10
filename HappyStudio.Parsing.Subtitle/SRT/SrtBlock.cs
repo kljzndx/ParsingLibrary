@@ -7,7 +7,7 @@ using HappyStudio.Parsing.Subtitle.Interfaces;
 
 namespace HappyStudio.Parsing.Subtitle.SRT
 {
-    public class SrtBlock : ISubtitleBlockBasic
+    public class SrtBlock : ISubtitleBlock
     {
         private List<SrtLine> _lines;
 
@@ -62,6 +62,7 @@ namespace HappyStudio.Parsing.Subtitle.SRT
         }
 
         public IEnumerable<ISubtitleLine> Lines => _lines;
+        public ISubtitleBlockProperties Properties => null;
 
         public override string ToString()
         {

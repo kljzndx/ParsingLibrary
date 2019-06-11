@@ -7,7 +7,7 @@ using HappyStudio.Parsing.Subtitle.Interfaces;
 
 namespace HappyStudio.Parsing.Subtitle.LRC
 {
-    public class LrcBlock : ISubtitleBlockFull
+    public class LrcBlock : ISubtitleBlock
     {
         private static readonly Regex LineRegex = new Regex(@"\[(?<min>\d{1,})\:(?<ss>\d{1,2})\.(?<ms>\d{1,3})\](?<content>.*)");
 

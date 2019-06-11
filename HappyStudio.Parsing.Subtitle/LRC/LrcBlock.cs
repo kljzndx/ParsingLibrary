@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using HappyStudio.Parsing.Subtitle.Attributes;
 using HappyStudio.Parsing.Subtitle.Extensions;
 using HappyStudio.Parsing.Subtitle.Interfaces;
 
 namespace HappyStudio.Parsing.Subtitle.LRC
 {
+    [SubtitleFormatInfo(@"\[(?<min>\d{1,})\:(?<ss>\d{1,2})\.(?<ms>\d{1,3})\](?<content>.*)")]
     public class LrcBlock : ISubtitleBlock
     {
         private static readonly Regex LineRegex = new Regex(@"\[(?<min>\d{1,})\:(?<ss>\d{1,2})\.(?<ms>\d{1,3})\](?<content>.*)");

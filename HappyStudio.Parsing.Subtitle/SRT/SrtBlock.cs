@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using HappyStudio.Parsing.Subtitle.Attributes;
 using HappyStudio.Parsing.Subtitle.Extensions;
 using HappyStudio.Parsing.Subtitle.Interfaces;
 
 namespace HappyStudio.Parsing.Subtitle.SRT
 {
+    [SubtitleFormatInfo(@"\d{2,3}\:\d{2}\:\d{2}\,\d{3} --> \d{2,3}\:\d{2}\:\d{2}\,\d{3}")]
     public class SrtBlock : ISubtitleBlock
     {
         private List<SrtLine> _lines;

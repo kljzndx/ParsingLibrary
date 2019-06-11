@@ -21,7 +21,7 @@ namespace HappyStudio.Parsing.Subtitle
                 if (attribute is null || !attribute.CheckFormat(content))
                     continue;
 
-                var subtitle = Activator.CreateInstance(typeInfo, content);
+                var subtitle = Activator.CreateInstance(typeInfo.AsType(), content);
                 return (ISubtitleBlock) subtitle;
             }
 

@@ -4,9 +4,9 @@ namespace HappyStudio.Parsing.Subtitle.Interfaces
 {
     public interface ISubtitleLine
     {
-        TimeSpan StartTime { get; set; }
-        TimeSpan? EndTime { get; set; }
-        string Content { get; set; }
+        TimeSpan StartTime { get; }
+        TimeSpan? EndTime { get; }
+        string Content { get; }
 
         string ToString();
     }

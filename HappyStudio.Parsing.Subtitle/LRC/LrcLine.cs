@@ -18,7 +18,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         }
 
         public TimeSpan StartTime { get; set; }
-        public TimeSpan? EndTime { get => null; set { } }
+        public TimeSpan? EndTime => null;
         public string Content { get; set; }
 
         public override string ToString()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using HappyStudio.Parsing.Subtitle.Attributes;
 using HappyStudio.Parsing.Subtitle.Interfaces;
@@ -15,7 +16,7 @@ namespace HappyStudio.Parsing.Subtitle
         public static ISubtitleBlock Parse(string content, Assembly assembly)
         {
             var types = assembly.DefinedTypes;
-            foreach (var typeInfo in types)
+            foreach (var typeInfo in types.Where(t => t.ImplementedInterfaces.Any(i => i == typeof(ISubtitleBlock))))
             {
                 var attribute = typeInfo.GetCustomAttribute<SubtitleFormatInfoAttribute>();
                 if (attribute is null || !attribute.CheckFormat(content))

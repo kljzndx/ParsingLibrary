@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HappyStudio.Parsing.Subtitle.Interfaces;
 
 namespace HappyStudio.Subtitle.Control.Interface
@@ -7,7 +8,7 @@ namespace HappyStudio.Subtitle.Control.Interface
     {
         event EventHandler<ISubtitleLine> Refreshed;
 
-        void SetSubtitle(ISubtitleBlock subtitle);
+        void SetSubtitle(List<ISubtitleLine> lines);
         void Refresh(TimeSpan time);
         void Reposition(TimeSpan time);
     }

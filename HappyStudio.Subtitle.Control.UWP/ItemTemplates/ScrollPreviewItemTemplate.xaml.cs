@@ -24,25 +24,44 @@ namespace HappyStudio.Subtitle.Control.UWP.ItemTemplates
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source), typeof(SubtitleLineUi), typeof(ScrollPreviewItemTemplate), new PropertyMetadata(null));
 
+        private SubtitleLineUi _currentSource;
+
+        public ScrollPreviewItemTemplate()
+        {
+            this.InitializeComponent();
+        }
+
         public SubtitleLineUi Source
         {
             get => (SubtitleLineUi) GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
 
-        public ScrollPreviewItemTemplate()
+        private void ScrollPreviewItemTemplate_OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.InitializeComponent();
+            this.DataContextChanged -= ScrollPreviewItemTemplate_DataContextChanged;
             this.DataContextChanged += ScrollPreviewItemTemplate_DataContextChanged;
+
+            ScrollPreviewItemTemplate_DataContextChanged(null, null);
+        }
+
+        private void ScrollPreviewItemTemplate_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            if (_currentSource != null)
+                _currentSource.PropertyChanged -= Source_PropertyChanged;
+
+            this.DataContextChanged -= ScrollPreviewItemTemplate_DataContextChanged;
         }
 
         private void ScrollPreviewItemTemplate_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if (Source is null)
-                return;
+            if (_currentSource != null)
+                _currentSource.PropertyChanged -= Source_PropertyChanged;
 
-            Source.PropertyChanged -= Source_PropertyChanged;
-            Source.PropertyChanged += Source_PropertyChanged;
+            _currentSource = Source;
+
+            if (_currentSource != null)
+                _currentSource.PropertyChanged += Source_PropertyChanged;
         }
 
         private void Source_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

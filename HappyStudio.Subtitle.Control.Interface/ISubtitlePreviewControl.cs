@@ -8,7 +8,7 @@ namespace HappyStudio.Subtitle.Control.Interface
     {
         event EventHandler<ISubtitleLine> Refreshed;
 
-        void SetSubtitle(List<ISubtitleLine> lines);
+        void SetSubtitle(IEnumerable<ISubtitleLine> lines);
         void Refresh(TimeSpan time);
         void Reposition(TimeSpan time);
     }

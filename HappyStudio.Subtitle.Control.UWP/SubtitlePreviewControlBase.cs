@@ -43,12 +43,14 @@ namespace HappyStudio.Subtitle.Control.UWP
             }
         }
 
-        public virtual void SetSubtitle(List<ISubtitleLine> source)
+        public virtual void SetSubtitle(IEnumerable<ISubtitleLine> source)
         {
-            if (source.All(s => s is SubtitleLineUi))
-                Source = source.Cast<SubtitleLineUi>().ToList();
+            var sl = source.ToList();
+
+            if (sl.All(s => s is SubtitleLineUi))
+                Source = sl.Cast<SubtitleLineUi>().ToList();
             else
-                Source = source.Select(s => new SubtitleLineUi(s)).ToList();
+                Source = sl.Select(s => new SubtitleLineUi(s)).ToList();
 
             Reposition(TimeSpan.Zero);
         }

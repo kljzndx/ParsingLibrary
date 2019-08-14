@@ -21,6 +21,7 @@ namespace HappyStudio.Subtitle.Control.UWP
         protected SubtitleLineUi PreviousLine;
         protected int NextLineIndex;
 
+        public event EventHandler<List<SubtitleLineUi>> SourceChanged;
         public event EventHandler<ISubtitleLine> Refreshed;
 
         protected bool CanPreview => IsEnabled && Visibility == Visibility.Visible && Source != null && Source.Any();
@@ -52,7 +53,7 @@ namespace HappyStudio.Subtitle.Control.UWP
             else
                 Source = sl.Select(s => new SubtitleLineUi(s)).ToList();
 
-            Reposition(TimeSpan.Zero);
+            SourceChanged?.Invoke(this, Source.ToList());
         }
 
         public virtual void Refresh(TimeSpan time)

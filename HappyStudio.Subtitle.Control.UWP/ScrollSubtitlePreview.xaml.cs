@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.Parsing.Subtitle.Interfaces;
+using HappyStudio.Subtitle.Control.Interface.Events;
 using HappyStudio.Subtitle.Control.UWP.Models;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
@@ -44,11 +45,11 @@ namespace HappyStudio.Subtitle.Control.UWP
             return result > 0 ? result : 0;
         }
 
-        private async void ScrollLyricsPreview_Refreshed(object sender, ISubtitleLine args)
+        private async void ScrollLyricsPreview_Refreshed(object sender, SubtitlePreviewRefreshedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var theLine = args as SubtitleLineUi;
+                var theLine = args.NewLine as SubtitleLineUi;
 
                 foreach (var line in Source.Where(l => l.IsSelected))
                     line.IsSelected = false;

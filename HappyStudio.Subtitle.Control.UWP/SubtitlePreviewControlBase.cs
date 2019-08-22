@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using HappyStudio.Parsing.Subtitle.Interfaces;
 using HappyStudio.Subtitle.Control.Interface;
+using HappyStudio.Subtitle.Control.Interface.Events;
 using HappyStudio.Subtitle.Control.UWP.Models;
 
 namespace HappyStudio.Subtitle.Control.UWP
@@ -16,13 +17,16 @@ namespace HappyStudio.Subtitle.Control.UWP
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source), typeof(List<SubtitleLineUi>), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
 
-        private SubtitleLineUi _currentLine;
+        public static readonly DependencyProperty CurrentLineProperty = DependencyProperty.Register(
+            nameof(CurrentLine), typeof(SubtitleLineUi), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null, CurrentLine_PropertyChangedCallback));
 
-        protected SubtitleLineUi PreviousLine;
+        //private SubtitleLineUi _currentLine;
+
+        //protected SubtitleLineUi PreviousLine;
         protected int NextLineIndex;
 
         public event EventHandler<List<SubtitleLineUi>> SourceChanged;
-        public event EventHandler<ISubtitleLine> Refreshed;
+        public event EventHandler<SubtitlePreviewRefreshedEventArgs> Refreshed;
 
         protected bool CanPreview => IsEnabled && Visibility == Visibility.Visible && Source != null && Source.Any();
 
@@ -32,16 +36,18 @@ namespace HappyStudio.Subtitle.Control.UWP
             protected set => SetValue(SourceProperty, value);
         }
 
+        public static readonly DependencyProperty PreviousLineProperty = DependencyProperty.Register(
+            nameof(PreviousLine), typeof(SubtitleLineUi), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
+
+        public SubtitleLineUi PreviousLine
+        {
+            get => (SubtitleLineUi) GetValue(PreviousLineProperty);
+            set => SetValue(PreviousLineProperty, value);
+        }
         public SubtitleLineUi CurrentLine
         {
-            get => _currentLine;
-            protected set
-            {
-                PreviousLine = _currentLine;
-                _currentLine = value;
-
-                Refreshed?.Invoke(this, value);
-            }
+            get => (SubtitleLineUi) GetValue(CurrentLineProperty);
+            set => SetValue(CurrentLineProperty, value);
         }
 
         public virtual void SetSubtitle(IEnumerable<ISubtitleLine> source)
@@ -72,6 +78,7 @@ namespace HappyStudio.Subtitle.Control.UWP
             if (currentPositionTicks >= nextLyricTimeTicks && currentPositionTicks < nextLyricEndTimeTicks)
             {
                 NextLineIndex++;
+                PreviousLine = CurrentLine;
                 CurrentLine = nextLine;
             }
         }
@@ -80,6 +87,8 @@ namespace HappyStudio.Subtitle.Control.UWP
         {
             if (!CanPreview)
                 return;
+
+            PreviousLine = null;
 
             if (time.CompareTo(Source.First().StartTime) <= 0)
             {
@@ -104,6 +113,12 @@ namespace HappyStudio.Subtitle.Control.UWP
                     break;
                 }
             }
+        }
+
+        private static void CurrentLine_PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var theObj = (SubtitlePreviewControlBase) d;
+            theObj.Refreshed?.Invoke(theObj, new SubtitlePreviewRefreshedEventArgs(theObj.PreviousLine, theObj.CurrentLine));
         }
     }
 }

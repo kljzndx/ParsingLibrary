@@ -27,6 +27,7 @@ namespace HappyStudio.Subtitle.Control.UWP
         {
             this.InitializeComponent();
             base.Refreshed += ScrollLyricsPreview_Refreshed;
+            this.LineHided += ScrollSubtitlePreview_LineHided;
         }
 
         public event ItemClickEventHandler ItemClick;
@@ -65,6 +66,11 @@ namespace HappyStudio.Subtitle.Control.UWP
                 theLine.IsSelected = true;
                 Root_ScrollViewer.ChangeView(null, GetItemPosition(theLine), null);
             });
+        }
+
+        private void ScrollSubtitlePreview_LineHided(object sender, SubtitleLineUi e)
+        {
+            e.IsSelected = false;
         }
 
         private void Main_ListView_OnItemClick(object sender, ItemClickEventArgs e)

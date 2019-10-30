@@ -20,6 +20,9 @@ namespace HappyStudio.Subtitle.Control.UWP
         public static readonly DependencyProperty CurrentLineProperty = DependencyProperty.Register(
             nameof(CurrentLine), typeof(SubtitleLineUi), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null, CurrentLine_PropertyChangedCallback));
 
+        public static readonly DependencyProperty PreviousLineProperty = DependencyProperty.Register(
+            nameof(PreviousLine), typeof(SubtitleLineUi), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
+
         protected int NextLineIndex;
 
         public event EventHandler<List<SubtitleLineUi>> SourceChanged;
@@ -33,9 +36,6 @@ namespace HappyStudio.Subtitle.Control.UWP
             get => (List<SubtitleLineUi>) GetValue(SourceProperty);
             protected set => SetValue(SourceProperty, value);
         }
-
-        public static readonly DependencyProperty PreviousLineProperty = DependencyProperty.Register(
-            nameof(PreviousLine), typeof(SubtitleLineUi), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
 
         public SubtitleLineUi PreviousLine
         {

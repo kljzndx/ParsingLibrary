@@ -20,9 +20,6 @@ namespace HappyStudio.Subtitle.Control.UWP
         public static readonly DependencyProperty CurrentLineProperty = DependencyProperty.Register(
             nameof(CurrentLine), typeof(SubtitleLineUi), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null, CurrentLine_PropertyChangedCallback));
 
-        //private SubtitleLineUi _currentLine;
-
-        //protected SubtitleLineUi PreviousLine;
         protected int NextLineIndex;
 
         public event EventHandler<List<SubtitleLineUi>> SourceChanged;
@@ -73,7 +70,7 @@ namespace HappyStudio.Subtitle.Control.UWP
             long currentPositionTicks = time.Ticks;
             SubtitleLineUi nextLine = Source[NextLineIndex];
             long nextLyricTimeTicks = nextLine.StartTime.Ticks;
-            long nextLyricEndTimeTicks = nextLyricTimeTicks + 10000000;
+            long nextLyricEndTimeTicks = nextLyricTimeTicks + TimeSpan.TicksPerSecond;
 
             if (currentPositionTicks >= nextLyricTimeTicks && currentPositionTicks < nextLyricEndTimeTicks)
             {

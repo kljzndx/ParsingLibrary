@@ -26,7 +26,7 @@ namespace HappyStudio.Subtitle.Control.UWP
         public event EventHandler<SubtitlePreviewRefreshedEventArgs> Refreshed;
         public event EventHandler<SubtitleLineUi> LineHided;
 
-        protected bool CanPreview => IsEnabled && Visibility == Visibility.Visible && Source != null && Source.Any();
+        protected bool CanPreview => IsEnabled && Visibility == Visibility.Visible && (Source?.Any() ?? false);
 
         public List<SubtitleLineUi> Source
         {

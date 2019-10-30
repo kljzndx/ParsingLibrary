@@ -24,6 +24,7 @@ namespace HappyStudio.Subtitle.Control.UWP
 
         public event EventHandler<List<SubtitleLineUi>> SourceChanged;
         public event EventHandler<SubtitlePreviewRefreshedEventArgs> Refreshed;
+        public event EventHandler<SubtitleLineUi> LineHided;
 
         protected bool CanPreview => IsEnabled && Visibility == Visibility.Visible && Source != null && Source.Any();
 
@@ -69,14 +70,25 @@ namespace HappyStudio.Subtitle.Control.UWP
 
             long currentPositionTicks = time.Ticks;
             SubtitleLineUi nextLine = Source[NextLineIndex];
-            long nextLyricTimeTicks = nextLine.StartTime.Ticks;
-            long nextLyricEndTimeTicks = nextLyricTimeTicks + TimeSpan.TicksPerSecond;
+            long nextLyricStartTimeTicks = nextLine.StartTime.Ticks;
+            // 一个秒数插值
+            long nextLyricStartAddedTimeTicks = nextLyricStartTimeTicks + TimeSpan.TicksPerSecond;
 
-            if (currentPositionTicks >= nextLyricTimeTicks && currentPositionTicks < nextLyricEndTimeTicks)
+
+            long currentLyricEndTimeTicks = CurrentLine?.EndTime?.Ticks ?? 0;
+            // 一个秒数插值
+            long currentLyricEndAddedTimeTicks = currentLyricEndTimeTicks + TimeSpan.TicksPerSecond;
+
+            if (currentPositionTicks >= nextLyricStartTimeTicks && currentPositionTicks < nextLyricStartAddedTimeTicks)
             {
                 NextLineIndex++;
                 PreviousLine = CurrentLine;
                 CurrentLine = nextLine;
+            }
+            else if (currentLyricEndAddedTimeTicks > 0 &&
+                     currentPositionTicks >= currentLyricEndTimeTicks && currentPositionTicks < currentLyricEndAddedTimeTicks)
+            {
+                LineHided?.Invoke(this, CurrentLine);
             }
         }
 

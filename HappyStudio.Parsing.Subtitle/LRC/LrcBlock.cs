@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.RegularExpressions;
 using HappyStudio.Parsing.Subtitle.Attributes;
@@ -14,25 +15,31 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         private static readonly Regex LineRegex = new Regex(@"\[(?<min>\d{1,})\:(?<ss>\d{1,2})\.(?<ms>\d{1,3})\](?<content>.*)");
 
         private LrcProperties _properties;
-        private List<LrcLine> _lines;
+        private IEnumerable<LrcLine> _lines;
 
         public LrcBlock()
         {
             _properties = new LrcProperties();
-            _lines = new List<LrcLine>();
+            _lines = new ObservableCollection<LrcLine>();
+        }
+
+        public LrcBlock(LrcProperties properties, IEnumerable<LrcLine> lines)
+        {
+            _properties = properties;
+            _lines = lines;
         }
 
         public LrcBlock(string lrcFileContent)
         {
+            var lrcLines = new ObservableCollection<LrcLine>();
             _properties = new LrcProperties(lrcFileContent);
-            _lines = new List<LrcLine>();
-
-            string[] lines = lrcFileContent.ToLines();
+            _lines = lrcLines;
+            string[] strLines = lrcFileContent.ToLines();
 
             LrcLine lrcLine = null;
             StringBuilder contentBuilder = new StringBuilder();
 
-            foreach (var item in lines)
+            foreach (var item in strLines)
             {
                 if (String.IsNullOrWhiteSpace(item))
                     continue;
@@ -47,7 +54,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
                     if (lrcLine != null)
                     {
                         lrcLine.Content = contentBuilder.ToString().Trim();
-                        _lines.Add(lrcLine);
+                        lrcLines.Add(lrcLine);
                         contentBuilder.Clear();
                     }
 
@@ -72,7 +79,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
             if (lrcLine != null)
             {
                 lrcLine.Content = contentBuilder.ToString().Trim();
-                _lines.Add(lrcLine);
+                lrcLines.Add(lrcLine);
             }
         }
 

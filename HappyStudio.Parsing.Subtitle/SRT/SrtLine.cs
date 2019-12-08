@@ -5,34 +5,40 @@ using HappyStudio.Parsing.Subtitle.Interfaces;
 
 namespace HappyStudio.Parsing.Subtitle.SRT
 {
-    public class SrtLine : ISubtitleLine
+    public class SrtLine : ObservableObject, ISubtitleLine
     {
+        private TimeSpan _startTime;
         private TimeSpan _endTime;
+        private string _content;
 
         public SrtLine(TimeSpan startTime, TimeSpan endTime)
         {
-            StartTime = startTime;
+            _startTime = startTime;
             _endTime = endTime;
         }
 
         public SrtLine(TimeSpan startTime, TimeSpan endTime, string content) : this(startTime, endTime)
         {
-            Content = content;
+            _content = content;
         }
 
-        public TimeSpan StartTime { get; set; }
+        public TimeSpan StartTime
+        {
+            get => _startTime;
+            set => Set(ref _startTime, value);
+        }
 
         public TimeSpan? EndTime
         {
             get => _endTime;
-            set
-            {
-                if (value != null)
-                    _endTime = value.Value;
-            }
+            set => Set(ref _endTime, value.GetValueOrDefault(TimeSpan.Zero));
         }
 
-        public string Content { get; set; }
+        public string Content
+        {
+            get => _content;
+            set => Set(ref _content, value);
+        }
 
         public override string ToString()
         {

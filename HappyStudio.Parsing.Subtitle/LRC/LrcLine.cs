@@ -1,25 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using HappyStudio.Parsing.Subtitle.Interfaces;
 
 namespace HappyStudio.Parsing.Subtitle.LRC
 {
-    public class LrcLine : ISubtitleLine
+    public class LrcLine : ObservableObject, ISubtitleLine
     {
+        private TimeSpan _startTime;
+        private string _content;
+        
         public LrcLine(TimeSpan startTime)
         {
-            StartTime = startTime;
+            _startTime = startTime;
         }
 
         public LrcLine(TimeSpan startTime, string content) : this(startTime)
         {
-            Content = content;
+            _content = content;
         }
 
-        public TimeSpan StartTime { get; set; }
+        public TimeSpan StartTime
+        {
+            get => _startTime;
+            set => Set(ref _startTime, value);
+        }
         public TimeSpan? EndTime => null;
-        public string Content { get; set; }
+        public string Content
+        {
+            get => _content;
+            set => Set(ref _content, value);
+        }
 
         public override string ToString()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using HappyStudio.Parsing.Subtitle.Attributes;
@@ -11,20 +12,27 @@ namespace HappyStudio.Parsing.Subtitle.SRT
     [SubtitleFormatInfo(@"\d{2,3}\:\d{2}\:\d{2}\,\d{3} --> \d{2,3}\:\d{2}\:\d{2}\,\d{3}")]
     public class SrtBlock : ISubtitleBlock
     {
-        private List<SrtLine> _lines;
+        private IEnumerable<SrtLine> _lines;
 
         public SrtBlock()
         {
-            _lines = new List<SrtLine>();
+            _lines = new ObservableCollection<SrtLine>();
         }
 
-        public SrtBlock(string srtFileContent) : this()
+        public SrtBlock(IEnumerable<SrtLine> lines)
         {
-            string[] lines = srtFileContent.ToLines();
+            _lines = lines;
+        }
+
+        public SrtBlock(string srtFileContent)
+        {
+            ObservableCollection<SrtLine> srtLines = new ObservableCollection<SrtLine>();
+            _lines = srtLines;
+            string[] fileLines = srtFileContent.ToLines();
             StringBuilder builder = new StringBuilder();
 
             SrtLine srtLine = null;
-            foreach (string item in lines)
+            foreach (string item in fileLines)
             {
                 if (String.IsNullOrWhiteSpace(item))
                     continue;
@@ -36,7 +44,7 @@ namespace HappyStudio.Parsing.Subtitle.SRT
                     if (srtLine != null)
                     {
                         srtLine.Content = builder.ToString().Trim();
-                        _lines.Add(srtLine);
+                        srtLines.Add(srtLine);
                     }
 
                     builder.Clear();
@@ -59,7 +67,7 @@ namespace HappyStudio.Parsing.Subtitle.SRT
             if (srtLine != null)
             {
                 srtLine.Content = builder.ToString().Trim();
-                _lines.Add(srtLine);
+                srtLines.Add(srtLine);
             }
         }
 

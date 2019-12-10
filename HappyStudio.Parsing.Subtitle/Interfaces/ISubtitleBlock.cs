@@ -6,7 +6,7 @@ namespace HappyStudio.Parsing.Subtitle.Interfaces
 {
     public interface ISubtitleBlock
     {
-        IList<ISubtitleLine> Lines { get; }
+        IEnumerable<ISubtitleLine> Lines { get; }
         ISubtitleBlockProperties Properties { get; }
 
         string ToString();

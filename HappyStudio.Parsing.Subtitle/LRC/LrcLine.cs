@@ -44,7 +44,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
             int min = StartTime.Minutes + (60 * StartTime.Hours);
             int ss = StartTime.Seconds;
 
-            string msStr = StartTime.Milliseconds.ToString().Substring(0, count);
+            string msStr = StartTime.Milliseconds.ToString("D3").Substring(0, count);
 
             return $"[{min:D2}:{ss:D2}.{msStr}] {Content}";
         }

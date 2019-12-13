@@ -28,10 +28,10 @@ namespace HappyStudio.Parsing.Subtitle.SRT
             set => Set(ref _startTime, value);
         }
 
-        public TimeSpan? EndTime
+        public TimeSpan EndTime
         {
             get => _endTime;
-            set => Set(ref _endTime, value.GetValueOrDefault(TimeSpan.Zero));
+            set => Set(ref _endTime, value);
         }
 
         public string Content
@@ -43,7 +43,7 @@ namespace HappyStudio.Parsing.Subtitle.SRT
         public override string ToString()
         {
             string st = StartTime.ToString(@"hh\:mm\:ss\,fff");
-            string et = EndTime.Value.ToString(@"hh\:mm\:ss\,fff");
+            string et = EndTime.ToString(@"hh\:mm\:ss\,fff");
 
             return $"{st} --> {et}" + Environment.NewLine + Content;
         }

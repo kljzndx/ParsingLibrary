@@ -5,12 +5,15 @@ namespace HappyStudio.Parsing.Subtitle.LRC
 {
     public class LrcLine : ObservableObject, ISubtitleLine
     {
+        protected bool SyncEndTime = true;
         private TimeSpan _startTime;
+        private TimeSpan _endTime;
         private string _content;
         
         public LrcLine(TimeSpan startTime)
         {
             _startTime = startTime;
+            _endTime = startTime;
         }
 
         public LrcLine(TimeSpan startTime, string content) : this(startTime)
@@ -21,9 +24,25 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         public TimeSpan StartTime
         {
             get => _startTime;
-            set => Set(ref _startTime, value);
+            set
+            {
+                Set(ref _startTime, value);
+
+                if (SyncEndTime)
+                    Set(ref _endTime, value, nameof(EndTime));
+            }
         }
-        public TimeSpan? EndTime => null;
+
+        public TimeSpan EndTime
+        {
+            get => _endTime;
+            set
+            {
+                Set(ref _endTime, value);
+                SyncEndTime = false;
+            }
+        }
+
         public string Content
         {
             get => _content;

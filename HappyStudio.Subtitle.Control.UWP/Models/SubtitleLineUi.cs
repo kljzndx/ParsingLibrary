@@ -7,7 +7,7 @@ namespace HappyStudio.Subtitle.Control.UWP.Models
     {
         private bool _isSelected;
         private TimeSpan _startTime;
-        private TimeSpan? _endTime;
+        private TimeSpan _endTime;
         private string _content;
 
         public SubtitleLineUi(ISubtitleLine line)
@@ -49,7 +49,7 @@ namespace HappyStudio.Subtitle.Control.UWP.Models
             set => Set(ref _startTime, value);
         }
 
-        public TimeSpan? EndTime
+        public TimeSpan EndTime
         {
             get => _endTime;
             set => Set(ref _endTime, value);

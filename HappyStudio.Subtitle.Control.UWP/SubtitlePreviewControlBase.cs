@@ -75,7 +75,9 @@ namespace HappyStudio.Subtitle.Control.UWP
             long nextLyricStartAddedTimeTicks = nextLyricStartTimeTicks + TimeSpan.TicksPerSecond;
 
 
-            long currentLyricEndTimeTicks = CurrentLine?.EndTime?.Ticks ?? 0;
+            long currentLyricEndTimeTicks = 0;
+            if (CurrentLine != null && CurrentLine.EndTime > CurrentLine.StartTime)
+                currentLyricEndTimeTicks = CurrentLine.EndTime.Ticks;
             // 一个秒数插值
             long currentLyricEndAddedTimeTicks = currentLyricEndTimeTicks + TimeSpan.TicksPerSecond;
 
@@ -85,7 +87,7 @@ namespace HappyStudio.Subtitle.Control.UWP
                 PreviousLine = CurrentLine;
                 CurrentLine = nextLine;
             }
-            else if (currentLyricEndAddedTimeTicks > 0 &&
+            else if (currentLyricEndTimeTicks > 0 &&
                      currentPositionTicks >= currentLyricEndTimeTicks && currentPositionTicks < currentLyricEndAddedTimeTicks)
             {
                 LineHided?.Invoke(this, CurrentLine);

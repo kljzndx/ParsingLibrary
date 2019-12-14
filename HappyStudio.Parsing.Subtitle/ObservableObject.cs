@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace HappyStudio.Parsing.Subtitle
@@ -13,6 +13,7 @@ namespace HappyStudio.Parsing.Subtitle
                 return;
 
             field = value;
+            RaisePropertyChanged(propertyName);
         }
 
         protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)

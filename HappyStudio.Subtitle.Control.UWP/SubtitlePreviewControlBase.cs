@@ -26,7 +26,7 @@ namespace HappyStudio.Subtitle.Control.UWP
         protected int NextLineIndex;
         protected IList<ISubtitleLine> SourceList;
 
-        public event EventHandler<IEnumerable<ISubtitleLine> > SourceChanged;
+        public event EventHandler<IEnumerable<ISubtitleLine>> SourceChanged;
         public event EventHandler<SubtitlePreviewRefreshedEventArgs> Refreshed;
         public event EventHandler<ISubtitleLine> LineHided;
 
@@ -76,10 +76,14 @@ namespace HappyStudio.Subtitle.Control.UWP
                 PreviousLine = CurrentLine;
                 CurrentLine = nextLine;
             }
-            else if (currentLyricEndTimeTicks > 0 &&
+
+            if (currentLyricEndTimeTicks > 0 &&
                      currentPositionTicks >= currentLyricEndTimeTicks && currentPositionTicks < currentLyricEndAddedTimeTicks)
             {
                 LineHided?.Invoke(this, CurrentLine);
+
+                PreviousLine = CurrentLine;
+                CurrentLine = null;
             }
         }
 

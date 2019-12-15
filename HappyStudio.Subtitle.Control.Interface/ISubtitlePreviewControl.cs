@@ -7,9 +7,10 @@ namespace HappyStudio.Subtitle.Control.Interface
 {
     public interface ISubtitlePreviewControl
     {
+        IEnumerable<ISubtitleLine> Source { get; set; }
+
         event EventHandler<SubtitlePreviewRefreshedEventArgs> Refreshed;
 
-        void SetSubtitle(IEnumerable<ISubtitleLine> lines);
         void Refresh(TimeSpan time);
         void Reposition(TimeSpan time);
     }

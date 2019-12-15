@@ -13,7 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.Parsing.Subtitle.Interfaces;
 using HappyStudio.Subtitle.Control.UWP.Models;
+using HappyStudio.Subtitle.Control.UWP.Models.Events;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -22,64 +24,41 @@ namespace HappyStudio.Subtitle.Control.UWP.ItemTemplates
     public sealed partial class ScrollPreviewItemTemplate : UserControl
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            nameof(Source), typeof(SubtitleLineUi), typeof(ScrollPreviewItemTemplate), new PropertyMetadata(null));
-
-        private SubtitleLineUi _currentSource;
+            nameof(Source), typeof(ISubtitleLine), typeof(ScrollPreviewItemTemplate), new PropertyMetadata(null));
 
         public ScrollPreviewItemTemplate()
         {
             this.InitializeComponent();
         }
 
-        public SubtitleLineUi Source
+        public ISubtitleLine Source
         {
-            get => (SubtitleLineUi) GetValue(SourceProperty);
+            get => (ISubtitleLine) GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
 
         private void ScrollPreviewItemTemplate_OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.DataContextChanged -= ScrollPreviewItemTemplate_DataContextChanged;
-            this.DataContextChanged += ScrollPreviewItemTemplate_DataContextChanged;
-
-            ScrollPreviewItemTemplate_DataContextChanged(null, null);
+            ItemSelectionNotifier.SelectionChanged -= ItemSelectionNotifier_SelectionChanged;
+            ItemSelectionNotifier.SelectionChanged += ItemSelectionNotifier_SelectionChanged;
         }
 
         private void ScrollPreviewItemTemplate_OnUnloaded(object sender, RoutedEventArgs e)
         {
-            if (_currentSource != null)
-                _currentSource.PropertyChanged -= Source_PropertyChanged;
-
-            this.DataContextChanged -= ScrollPreviewItemTemplate_DataContextChanged;
+            ItemSelectionNotifier.SelectionChanged -= ItemSelectionNotifier_SelectionChanged;
         }
 
-        private void ScrollPreviewItemTemplate_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private void ItemSelectionNotifier_SelectionChanged(object sender, ISubtitleLine e)
         {
-            if (_currentSource != null)
-                _currentSource.PropertyChanged -= Source_PropertyChanged;
-
-            _currentSource = Source;
-
-            if (_currentSource != null)
-                _currentSource.PropertyChanged += Source_PropertyChanged;
-        }
-
-        private void Source_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
+            if (Source != null && Source == e)
             {
-                case nameof(Source.IsSelected):
-                    if (Source.IsSelected)
-                    {
-                        Main_TextBlock.FontWeight = FontWeights.Bold;
-                        Main_TextBlock.FontSize = this.FontSize + 2;
-                    }
-                    else
-                    {
-                        Main_TextBlock.FontWeight = FontWeights.Normal;
-                        Main_TextBlock.FontSize = this.FontSize;
-                    }
-                    break;
+                Main_TextBlock.FontWeight = FontWeights.Bold;
+                Main_TextBlock.FontSize = this.FontSize + 2;
+            }
+            else
+            {
+                Main_TextBlock.FontWeight = FontWeights.Normal;
+                Main_TextBlock.FontSize = this.FontSize;
             }
         }
     }

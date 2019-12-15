@@ -14,26 +14,23 @@ namespace HappyStudio.Parsing.Subtitle.LRC
     {
         private static readonly Regex LineRegex = new Regex(@"\[(?<min>\d{1,})\:(?<ss>\d{1,2})\.(?<ms>\d{1,3})\](?<content>.*)");
 
-        private LrcProperties _properties;
-        private IEnumerable<LrcLine> _lines;
-
         public LrcBlock()
         {
-            _properties = new LrcProperties();
-            _lines = new ObservableCollection<LrcLine>();
+            Properties = new LrcProperties();
+            Lines = new ObservableCollection<LrcLine>();
         }
 
-        public LrcBlock(LrcProperties properties, IEnumerable<LrcLine> lines)
+        public LrcBlock(LrcProperties properties, IEnumerable<ISubtitleLine> lines)
         {
-            _properties = properties;
-            _lines = lines;
+            Properties = properties;
+            Lines = lines;
         }
 
         public LrcBlock(string lrcFileContent)
         {
-            var lrcLines = new ObservableCollection<LrcLine>();
-            _properties = new LrcProperties(lrcFileContent);
-            _lines = lrcLines;
+            var lrcLines = new ObservableCollection<ISubtitleLine>();
+            Properties = new LrcProperties(lrcFileContent);
+            Lines = lrcLines;
             string[] strLines = lrcFileContent.ToLines();
 
             LrcLine lrcLine = null;
@@ -83,8 +80,8 @@ namespace HappyStudio.Parsing.Subtitle.LRC
             }
         }
 
-        public ISubtitleBlockProperties Properties { get => _properties; }
-        public IEnumerable<ISubtitleLine> Lines { get => _lines; }
+        public ISubtitleBlockProperties Properties { get; }
+        public IEnumerable<ISubtitleLine> Lines { get; }
 
         public override string ToString()
         {

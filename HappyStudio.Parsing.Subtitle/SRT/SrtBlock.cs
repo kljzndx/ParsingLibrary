@@ -12,22 +12,20 @@ namespace HappyStudio.Parsing.Subtitle.SRT
     [SubtitleFormatInfo(@"\d{2,3}\:\d{2}\:\d{2}\,\d{3} --> \d{2,3}\:\d{2}\:\d{2}\,\d{3}")]
     public class SrtBlock : ISubtitleBlock
     {
-        private IEnumerable<SrtLine> _lines;
-
         public SrtBlock()
         {
-            _lines = new ObservableCollection<SrtLine>();
+            Lines = new ObservableCollection<ISubtitleLine>();
         }
 
-        public SrtBlock(IEnumerable<SrtLine> lines)
+        public SrtBlock(IEnumerable<ISubtitleLine> lines)
         {
-            _lines = lines;
+            Lines = lines;
         }
 
         public SrtBlock(string srtFileContent)
         {
-            ObservableCollection<SrtLine> srtLines = new ObservableCollection<SrtLine>();
-            _lines = srtLines;
+            var srtLines = new ObservableCollection<ISubtitleLine>();
+            Lines = srtLines;
             string[] fileLines = srtFileContent.ToLines();
             StringBuilder builder = new StringBuilder();
 
@@ -71,8 +69,9 @@ namespace HappyStudio.Parsing.Subtitle.SRT
             }
         }
 
-        public IEnumerable<ISubtitleLine> Lines => _lines;
         public ISubtitleBlockProperties Properties => null;
+
+        public IEnumerable<ISubtitleLine> Lines { get; }
 
         public override string ToString()
         {

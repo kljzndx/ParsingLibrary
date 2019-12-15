@@ -43,6 +43,7 @@ namespace HappyStudio.Subtitle.Control.UWP
             get => (ISubtitleLine) GetValue(PreviousLineProperty);
             set => SetValue(PreviousLineProperty, value);
         }
+
         public ISubtitleLine CurrentLine
         {
             get => (ISubtitleLine) GetValue(CurrentLineProperty);
@@ -110,7 +111,7 @@ namespace HappyStudio.Subtitle.Control.UWP
 
             for (var i = 0; i < SourceList.Count; i++)
             {
-                if (time.CompareTo(SourceList[i].StartTime) < 0)
+                if (SourceList[i].StartTime > time)
                 {
                     NextLineIndex = i;
                     CurrentLine = SourceList[i - 1];

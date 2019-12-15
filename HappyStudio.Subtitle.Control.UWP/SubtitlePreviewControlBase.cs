@@ -15,49 +15,38 @@ namespace HappyStudio.Subtitle.Control.UWP
     public class SubtitlePreviewControlBase : UserControl, ISubtitlePreviewControl
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            nameof(Source), typeof(List<SubtitleLineUi>), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
+            nameof(Source), typeof(IEnumerable<ISubtitleLine>), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null, SourceProperty_ChangedCallback));
 
         public static readonly DependencyProperty CurrentLineProperty = DependencyProperty.Register(
-            nameof(CurrentLine), typeof(SubtitleLineUi), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null, CurrentLine_PropertyChangedCallback));
+            nameof(CurrentLine), typeof(ISubtitleLine), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null, CurrentLine_PropertyChangedCallback));
 
         public static readonly DependencyProperty PreviousLineProperty = DependencyProperty.Register(
-            nameof(PreviousLine), typeof(SubtitleLineUi), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
+            nameof(PreviousLine), typeof(ISubtitleLine), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
 
         protected int NextLineIndex;
+        protected IList<ISubtitleLine> SourceList;
 
-        public event EventHandler<List<SubtitleLineUi>> SourceChanged;
+        public event EventHandler<IEnumerable<ISubtitleLine> > SourceChanged;
         public event EventHandler<SubtitlePreviewRefreshedEventArgs> Refreshed;
-        public event EventHandler<SubtitleLineUi> LineHided;
+        public event EventHandler<ISubtitleLine> LineHided;
 
         protected bool CanPreview => IsEnabled && Visibility == Visibility.Visible && (Source?.Any() ?? false);
 
-        public List<SubtitleLineUi> Source
+        public IEnumerable<ISubtitleLine> Source
         {
-            get => (List<SubtitleLineUi>) GetValue(SourceProperty);
-            protected set => SetValue(SourceProperty, value);
+            get => (IEnumerable<ISubtitleLine>) GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
         }
 
-        public SubtitleLineUi PreviousLine
+        public ISubtitleLine PreviousLine
         {
-            get => (SubtitleLineUi) GetValue(PreviousLineProperty);
+            get => (ISubtitleLine) GetValue(PreviousLineProperty);
             set => SetValue(PreviousLineProperty, value);
         }
-        public SubtitleLineUi CurrentLine
+        public ISubtitleLine CurrentLine
         {
-            get => (SubtitleLineUi) GetValue(CurrentLineProperty);
+            get => (ISubtitleLine) GetValue(CurrentLineProperty);
             set => SetValue(CurrentLineProperty, value);
-        }
-
-        public virtual void SetSubtitle(IEnumerable<ISubtitleLine> source)
-        {
-            var sl = source.ToList();
-
-            if (sl.All(s => s is SubtitleLineUi))
-                Source = sl.Cast<SubtitleLineUi>().ToList();
-            else
-                Source = sl.Select(s => new SubtitleLineUi(s)).ToList();
-
-            SourceChanged?.Invoke(this, Source.ToList());
         }
 
         public virtual void Refresh(TimeSpan time)
@@ -65,11 +54,11 @@ namespace HappyStudio.Subtitle.Control.UWP
             if (!CanPreview)
                 return;
 
-            if (NextLineIndex >= Source.Count)
+            if (NextLineIndex >= SourceList.Count)
                 NextLineIndex = 0;
 
             long currentPositionTicks = time.Ticks;
-            SubtitleLineUi nextLine = Source[NextLineIndex];
+            ISubtitleLine nextLine = SourceList[NextLineIndex];
             long nextLyricStartTimeTicks = nextLine.StartTime.Ticks;
             // 一个秒数插值
             long nextLyricStartAddedTimeTicks = nextLyricStartTimeTicks + TimeSpan.TicksPerSecond;
@@ -115,15 +104,27 @@ namespace HappyStudio.Subtitle.Control.UWP
                 return;
             }
 
-            for (var i = 0; i < Source.Count; i++)
+            for (var i = 0; i < SourceList.Count; i++)
             {
-                if (time.CompareTo(Source[i].StartTime) < 0)
+                if (time.CompareTo(SourceList[i].StartTime) < 0)
                 {
                     NextLineIndex = i;
-                    CurrentLine = Source[i - 1];
+                    CurrentLine = SourceList[i - 1];
                     break;
                 }
             }
+        }
+
+        private static void SourceProperty_ChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var theObj = (SubtitlePreviewControlBase) d;
+
+            if (e.NewValue is IList<ISubtitleLine> list)
+                theObj.SourceList = list;
+            else
+                theObj.SourceList = ((IEnumerable<ISubtitleLine>) e.NewValue).ToList();
+
+            theObj.SourceChanged?.Invoke(theObj, (IEnumerable<ISubtitleLine>) e.NewValue);
         }
 
         private static void CurrentLine_PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

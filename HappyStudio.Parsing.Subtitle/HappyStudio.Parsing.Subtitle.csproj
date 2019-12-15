@@ -11,4 +11,8 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="HappyStudio.Parsing.Subtitle.Interfaces" Version="1.0.0" />
+  </ItemGroup>
+
 </Project>

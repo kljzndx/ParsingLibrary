@@ -26,6 +26,7 @@ namespace HappyStudio.Subtitle.Control.UWP
         public ScrollSubtitlePreview()
         {
             this.InitializeComponent();
+
             base.Refreshed += ScrollLyricsPreview_Refreshed;
             this.LineHided += ScrollSubtitlePreview_LineHided;
         }

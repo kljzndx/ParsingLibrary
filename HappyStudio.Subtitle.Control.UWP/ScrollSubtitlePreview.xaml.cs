@@ -54,12 +54,10 @@ namespace HappyStudio.Subtitle.Control.UWP
             {
                 var theLine = args.NewLine;
 
-
                 if (theLine == null)
                 {
                     Main_ListView.SelectedIndex = -1;
                     ItemSelectionNotifier.ChangeSelection(null);
-                    Root_ScrollViewer.ChangeView(null, 0, null);
                     return;
                 }
 

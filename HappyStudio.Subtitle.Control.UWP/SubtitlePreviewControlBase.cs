@@ -94,17 +94,17 @@ namespace HappyStudio.Subtitle.Control.UWP
 
             PreviousLine = null;
 
-            if (time.CompareTo(Source.First().StartTime) <= 0)
+            if (time.CompareTo(SourceList.First().StartTime) <= 0)
             {
                 NextLineIndex = 0;
                 CurrentLine = null;
                 return;
             }
 
-            if (time.CompareTo(Source.Last().StartTime) >= 0)
+            if (time.CompareTo(SourceList.Last().StartTime) >= 0)
             {
                 NextLineIndex = 0;
-                CurrentLine = Source.Last();
+                CurrentLine = SourceList.Last();
                 return;
             }
 

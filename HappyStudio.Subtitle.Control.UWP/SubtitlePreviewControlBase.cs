@@ -81,14 +81,6 @@ namespace HappyStudio.Subtitle.Control.UWP
             ISubtitleLine nextLine = SourceList[NextLineIndex];
             var nextLyricStartTime = nextLine.StartTime;
 
-            if (time < currentLineStartTime && PreviousLine != null &&
-                (PreviousLine.EndTime <= PreviousLine.StartTime ||
-                time >= PreviousLine.EndTime - secondTime && time <= PreviousLine.EndTime))
-            {
-                NextLineIndex--;
-                CurrentLine = PreviousLine;
-            }
-
             if (time >= nextLyricStartTime && time < nextLyricStartTime + secondTime)
             {
                 NextLineIndex++;

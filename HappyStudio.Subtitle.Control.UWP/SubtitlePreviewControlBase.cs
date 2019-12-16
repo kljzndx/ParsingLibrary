@@ -23,6 +23,7 @@ namespace HappyStudio.Subtitle.Control.UWP
         public static readonly DependencyProperty PreviousLineProperty = DependencyProperty.Register(
             nameof(PreviousLine), typeof(ISubtitleLine), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
 
+        protected TimeSpan LastPosition;
         protected int NextLineIndex;
         protected IList<ISubtitleLine> SourceList;
 
@@ -132,6 +133,19 @@ namespace HappyStudio.Subtitle.Control.UWP
                     break;
                 }
             }
+        }
+
+        public void IntelligentRefresh(TimeSpan time)
+        {
+            var secondTime = TimeSpan.FromSeconds(1);
+            var minPosition = LastPosition - secondTime;
+            var maxPosition = LastPosition + secondTime;
+            LastPosition = time;
+
+            if (time > minPosition && time < maxPosition)
+                Refresh(time);
+            else
+                Reposition(time);
         }
 
         private static void SourceProperty_ChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

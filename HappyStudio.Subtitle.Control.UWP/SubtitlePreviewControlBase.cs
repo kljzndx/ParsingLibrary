@@ -68,32 +68,38 @@ namespace HappyStudio.Subtitle.Control.UWP
             if (NextLineIndex >= SourceList.Count)
                 NextLineIndex = 0;
 
-            long currentPositionTicks = time.Ticks;
+            TimeSpan secondTime = TimeSpan.FromSeconds(1);
+
+            TimeSpan currentLineStartTime = TimeSpan.Zero;
+            TimeSpan currentLineEndTime = TimeSpan.Zero;
+            if (CurrentLine != null)
+            {
+                currentLineStartTime = CurrentLine.StartTime;
+                currentLineEndTime = CurrentLine.EndTime;
+            }
+
             ISubtitleLine nextLine = SourceList[NextLineIndex];
-            long nextLyricStartTimeTicks = nextLine.StartTime.Ticks;
-            // 一个秒数插值
-            long nextLyricStartAddedTimeTicks = nextLyricStartTimeTicks + TimeSpan.TicksPerSecond;
+            var nextLyricStartTime = nextLine.StartTime;
 
+            if (time < currentLineStartTime && PreviousLine != null &&
+                (PreviousLine.EndTime <= PreviousLine.StartTime ||
+                time >= PreviousLine.EndTime - secondTime && time <= PreviousLine.EndTime))
+            {
+                NextLineIndex--;
+                CurrentLine = PreviousLine;
+            }
 
-            long currentLyricEndTimeTicks = 0;
-            if (CurrentLine != null && CurrentLine.EndTime > CurrentLine.StartTime)
-                currentLyricEndTimeTicks = CurrentLine.EndTime.Ticks;
-            // 一个秒数插值
-            long currentLyricEndAddedTimeTicks = currentLyricEndTimeTicks + TimeSpan.TicksPerSecond;
-
-            if (currentPositionTicks >= nextLyricStartTimeTicks && currentPositionTicks < nextLyricStartAddedTimeTicks)
+            if (time >= nextLyricStartTime && time < nextLyricStartTime + secondTime)
             {
                 NextLineIndex++;
-                PreviousLine = CurrentLine;
                 CurrentLine = nextLine;
             }
 
-            if (currentLyricEndTimeTicks > 0 &&
-                     currentPositionTicks >= currentLyricEndTimeTicks && currentPositionTicks < currentLyricEndAddedTimeTicks)
+            if (currentLineEndTime > currentLineStartTime &&
+                     time >= currentLineEndTime && time < currentLineEndTime + secondTime)
             {
                 LineHided?.Invoke(this, CurrentLine);
 
-                PreviousLine = CurrentLine;
                 CurrentLine = null;
             }
         }
@@ -102,8 +108,6 @@ namespace HappyStudio.Subtitle.Control.UWP
         {
             if (!CanPreview)
                 return;
-
-            PreviousLine = null;
 
             if (time < SourceList.First().StartTime)
             {
@@ -178,7 +182,16 @@ namespace HappyStudio.Subtitle.Control.UWP
         private static void CurrentLine_PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var theObj = (SubtitlePreviewControlBase) d;
-            theObj.Refreshed?.Invoke(theObj, new SubtitlePreviewRefreshedEventArgs(theObj.PreviousLine, theObj.CurrentLine));
+            var theLine = (ISubtitleLine) e.NewValue;
+            if (theLine != null)
+            {
+                int lineId = theObj.SourceList.IndexOf(theLine);
+                theObj.PreviousLine = lineId > 0 ? theObj.SourceList[lineId - 1] : theObj.SourceList.Last();
+            }
+            else
+                theObj.PreviousLine = (ISubtitleLine) e.OldValue;
+
+            theObj.Refreshed?.Invoke(theObj, new SubtitlePreviewRefreshedEventArgs(theObj.PreviousLine, theLine));
         }
     }
 }

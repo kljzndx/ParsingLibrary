@@ -95,17 +95,25 @@ namespace HappyStudio.Subtitle.Control.UWP
 
             PreviousLine = null;
 
-            if (time.CompareTo(SourceList.First().StartTime) <= 0)
+            if (time < SourceList.First().StartTime)
             {
                 NextLineIndex = 0;
                 CurrentLine = null;
                 return;
             }
 
-            if (time.CompareTo(SourceList.Last().StartTime) >= 0)
+            var lastLine = SourceList.Last();
+            if (lastLine.EndTime <= lastLine.StartTime || time >= lastLine.StartTime && time < lastLine.EndTime)
             {
                 NextLineIndex = 0;
-                CurrentLine = SourceList.Last();
+                CurrentLine = lastLine;
+                return;
+            }
+
+            if (lastLine.EndTime > lastLine.StartTime && time >= lastLine.EndTime)
+            {
+                NextLineIndex = 0;
+                CurrentLine = null;
                 return;
             }
 
@@ -114,7 +122,13 @@ namespace HappyStudio.Subtitle.Control.UWP
                 if (SourceList[i].StartTime > time)
                 {
                     NextLineIndex = i;
-                    CurrentLine = SourceList[i - 1];
+
+                    var currentLine = SourceList[i - 1];
+                    if (currentLine.EndTime <= currentLine.StartTime || time >= currentLine.StartTime && time < currentLine.EndTime)
+                        CurrentLine = currentLine;
+                    else
+                        CurrentLine = null;
+
                     break;
                 }
             }

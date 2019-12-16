@@ -26,6 +26,8 @@ namespace HappyStudio.Subtitle.Control.UWP
         public static readonly DependencyProperty PreviousLineProperty = DependencyProperty.Register(
             nameof(PreviousLine), typeof(ISubtitleLine), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
 
+        private static readonly TimeSpan SecondTime = TimeSpan.FromSeconds(1);
+
         protected TimeSpan LastPosition;
         protected int NextLineIndex;
         protected IList<ISubtitleLine> SourceList;
@@ -68,8 +70,6 @@ namespace HappyStudio.Subtitle.Control.UWP
             if (NextLineIndex >= SourceList.Count)
                 NextLineIndex = 0;
 
-            TimeSpan secondTime = TimeSpan.FromSeconds(1);
-
             TimeSpan currentLineStartTime = TimeSpan.Zero;
             TimeSpan currentLineEndTime = TimeSpan.Zero;
             if (CurrentLine != null)
@@ -81,14 +81,14 @@ namespace HappyStudio.Subtitle.Control.UWP
             ISubtitleLine nextLine = SourceList[NextLineIndex];
             var nextLyricStartTime = nextLine.StartTime;
 
-            if (time >= nextLyricStartTime && time < nextLyricStartTime + secondTime)
+            if (time >= nextLyricStartTime && time < nextLyricStartTime + SecondTime)
             {
                 NextLineIndex++;
                 CurrentLine = nextLine;
             }
 
             if (currentLineEndTime > currentLineStartTime &&
-                     time >= currentLineEndTime && time < currentLineEndTime + secondTime)
+                     time >= currentLineEndTime && time < currentLineEndTime + SecondTime)
             {
                 LineHided?.Invoke(this, CurrentLine);
 
@@ -142,15 +142,19 @@ namespace HappyStudio.Subtitle.Control.UWP
 
         protected virtual void IntelligentRefresh(TimeSpan time)
         {
-            var secondTime = TimeSpan.FromSeconds(1);
-            var minPosition = LastPosition - secondTime;
-            var maxPosition = LastPosition + secondTime;
-            LastPosition = time;
+            var minPosition = LastPosition - SecondTime;
+            var maxPosition = LastPosition + SecondTime;
 
-            if (time > minPosition && time < maxPosition)
-                Refresh(time);
-            else
+            if (time > LastPosition)
+                LastPosition = time;
+
+            if (time < minPosition)
+            {
                 Reposition(time);
+                LastPosition = time;
+            }
+            else if (time < maxPosition)
+                Refresh(time);
         }
 
         private static void PositionProperty_ChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

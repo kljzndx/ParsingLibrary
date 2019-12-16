@@ -14,6 +14,9 @@ namespace HappyStudio.Subtitle.Control.UWP
 {
     public class SubtitlePreviewControlBase : UserControl, ISubtitlePreviewControl
     {
+        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register(
+            nameof(Position), typeof(TimeSpan), typeof(SubtitlePreviewControlBase), new PropertyMetadata(TimeSpan.Zero, PositionProperty_ChangedCallback));
+
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source), typeof(IEnumerable<ISubtitleLine>), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null, SourceProperty_ChangedCallback));
 
@@ -31,7 +34,13 @@ namespace HappyStudio.Subtitle.Control.UWP
         public event EventHandler<SubtitlePreviewRefreshedEventArgs> Refreshed;
         public event EventHandler<ISubtitleLine> LineHided;
 
-        protected bool CanPreview => IsEnabled && Visibility == Visibility.Visible && (Source?.Any() ?? false);
+        protected bool CanPreview => IsEnabled && Visibility == Visibility.Visible && (SourceList?.Any() ?? false);
+
+        public TimeSpan Position
+        {
+            get => (TimeSpan) GetValue(PositionProperty);
+            set => SetValue(PositionProperty, value);
+        }
 
         public IEnumerable<ISubtitleLine> Source
         {
@@ -135,7 +144,7 @@ namespace HappyStudio.Subtitle.Control.UWP
             }
         }
 
-        public void IntelligentRefresh(TimeSpan time)
+        protected virtual void IntelligentRefresh(TimeSpan time)
         {
             var secondTime = TimeSpan.FromSeconds(1);
             var minPosition = LastPosition - secondTime;
@@ -146,6 +155,12 @@ namespace HappyStudio.Subtitle.Control.UWP
                 Refresh(time);
             else
                 Reposition(time);
+        }
+
+        private static void PositionProperty_ChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var theObj = (SubtitlePreviewControlBase) d;
+            theObj.IntelligentRefresh((TimeSpan) e.NewValue);
         }
 
         private static void SourceProperty_ChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

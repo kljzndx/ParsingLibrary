@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using HappyStudio.Parsing.Subtitle.Attributes;
@@ -17,10 +18,10 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         public LrcBlock()
         {
             Properties = new LrcProperties();
-            Lines = new ObservableCollection<LrcLine>();
+            Lines = new ObservableCollection<ISubtitleLine>();
         }
 
-        public LrcBlock(LrcProperties properties, IEnumerable<ISubtitleLine> lines)
+        public LrcBlock(LrcProperties properties, IList<ISubtitleLine> lines)
         {
             Properties = properties;
             Lines = lines;
@@ -81,7 +82,7 @@ namespace HappyStudio.Parsing.Subtitle.LRC
         }
 
         public ISubtitleBlockProperties Properties { get; }
-        public IEnumerable<ISubtitleLine> Lines { get; }
+        public IList<ISubtitleLine> Lines { get; }
 
         public override string ToString()
         {

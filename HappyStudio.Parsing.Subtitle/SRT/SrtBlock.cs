@@ -17,7 +17,7 @@ namespace HappyStudio.Parsing.Subtitle.SRT
             Lines = new ObservableCollection<ISubtitleLine>();
         }
 
-        public SrtBlock(IEnumerable<ISubtitleLine> lines)
+        public SrtBlock(IList<ISubtitleLine> lines)
         {
             Lines = lines;
         }
@@ -71,7 +71,7 @@ namespace HappyStudio.Parsing.Subtitle.SRT
 
         public ISubtitleBlockProperties Properties => null;
 
-        public IEnumerable<ISubtitleLine> Lines { get; }
+        public IList<ISubtitleLine> Lines { get; }
 
         public override string ToString()
         {

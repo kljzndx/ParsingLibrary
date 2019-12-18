@@ -10,5 +10,5 @@
     Loaded="ScrollPreviewItemTemplate_OnLoaded"
     Unloaded="ScrollPreviewItemTemplate_OnUnloaded">
 
-    <TextBlock x:Name="Main_TextBlock" Text="{x:Bind Source.Content, Mode=OneWay}" Margin="0,8"/>
+    <TextBlock x:Name="Main_TextBlock" Text="{x:Bind Text, Mode=OneWay}" Margin="0,8"/>
 </UserControl>

@@ -23,18 +23,18 @@ namespace HappyStudio.Subtitle.Control.UWP.ItemTemplates
 {
     public sealed partial class ScrollPreviewItemTemplate : UserControl
     {
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            nameof(Source), typeof(ISubtitleLine), typeof(ScrollPreviewItemTemplate), new PropertyMetadata(null));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            nameof(Text), typeof(string), typeof(ScrollPreviewItemTemplate), new PropertyMetadata(String.Empty));
 
         public ScrollPreviewItemTemplate()
         {
             this.InitializeComponent();
         }
 
-        public ISubtitleLine Source
+        public string Text
         {
-            get => (ISubtitleLine) GetValue(SourceProperty);
-            set => SetValue(SourceProperty, value);
+            get => (string) GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         private void ScrollPreviewItemTemplate_OnLoaded(object sender, RoutedEventArgs e)
@@ -50,7 +50,7 @@ namespace HappyStudio.Subtitle.Control.UWP.ItemTemplates
 
         private void ItemSelectionNotifier_SelectionChanged(object sender, ISubtitleLine e)
         {
-            if (Source != null && Source == e)
+            if (this.DataContext != null && this.DataContext == e)
             {
                 Main_TextBlock.FontWeight = FontWeights.Bold;
                 Main_TextBlock.FontSize = this.FontSize + 2;

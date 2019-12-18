@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="Models\Events\ItemSelectionNotifier.cs" />
     <Compile Include="Models\ObservableObject.cs" />
+    <Compile Include="Models\SubtitleItemTemplateSelector.cs" />
     <Compile Include="Models\SubtitleLineUi.cs" />
     <Compile Include="ScrollSubtitlePreview.xaml.cs">
       <DependentUpon>ScrollSubtitlePreview.xaml</DependentUpon>

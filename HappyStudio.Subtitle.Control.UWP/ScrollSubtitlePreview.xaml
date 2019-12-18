@@ -18,7 +18,7 @@
     </local:SubtitlePreviewControlBase.Resources>
 
     <ScrollViewer x:Name="Root_ScrollViewer">
-        <ListView x:Name="Main_ListView" ItemsSource="{x:Bind Source, Mode=OneWay}" ItemTemplateSelector="{x:Bind _selector}" SelectionMode="Extended" IsItemClickEnabled="True" ItemClick="Main_ListView_OnItemClick">
+        <ListView x:Name="Main_ListView" ItemsSource="{x:Bind Source, Mode=OneWay}" SelectionMode="Extended" IsItemClickEnabled="True" ItemClick="Main_ListView_OnItemClick">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>

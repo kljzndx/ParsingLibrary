@@ -148,12 +148,12 @@ namespace HappyStudio.Subtitle.Control.UWP
             if (time > LastPosition)
                 LastPosition = time;
 
-            if (time < minPosition)
+            if (time < minPosition || time > maxPosition)
             {
                 Reposition(time);
                 LastPosition = time;
             }
-            else if (time < maxPosition)
+            else
                 Refresh(time);
         }
 

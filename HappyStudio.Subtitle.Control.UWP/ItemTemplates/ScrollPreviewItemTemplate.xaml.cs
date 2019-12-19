@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using HappyStudio.Parsing.Subtitle.Interfaces;
 using HappyStudio.Subtitle.Control.UWP.Models;
 using HappyStudio.Subtitle.Control.UWP.Models.Events;
+using Windows.Foundation.Metadata;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -29,6 +30,9 @@ namespace HappyStudio.Subtitle.Control.UWP.ItemTemplates
         public ScrollPreviewItemTemplate()
         {
             this.InitializeComponent();
+
+            if (ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.TextBlock", nameof(TextBlock.HorizontalTextAlignment)))
+                Main_TextBlock.HorizontalTextAlignment = TextAlignment.Center;
         }
 
         public string Text

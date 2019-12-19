@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Parsing", "Parsing", "{902F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyStudio.Subtitle.Control.UWP", "HappyStudio.Subtitle.Control.UWP\HappyStudio.Subtitle.Control.UWP.csproj", "{433EB1C7-E3D7-4016-99D0-F9E27A9A1395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyStudio.Parsing.Subtitle.Interfaces", "HappyStudio.Parsing.Subtitle.Interfaces\HappyStudio.Parsing.Subtitle.Interfaces.csproj", "{77B983E8-5C00-493B-A26E-141D91EACFFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyStudio.Parsing.Subtitle.Interfaces", "HappyStudio.Parsing.Subtitle.Interfaces\HappyStudio.Parsing.Subtitle.Interfaces.csproj", "{77B983E8-5C00-493B-A26E-141D91EACFFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyStudio.Subtitle.Control.UWP.Demo", "HappyStudio.Subtitle.Control.UWP.Demo\HappyStudio.Subtitle.Control.UWP.Demo.csproj", "{EC11204C-05DD-44CA-86BD-BA8A9863D659}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,32 @@ Global
 		{77B983E8-5C00-493B-A26E-141D91EACFFF}.Release|x64.Build.0 = Release|Any CPU
 		{77B983E8-5C00-493B-A26E-141D91EACFFF}.Release|x86.ActiveCfg = Release|Any CPU
 		{77B983E8-5C00-493B-A26E-141D91EACFFF}.Release|x86.Build.0 = Release|Any CPU
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|ARM.Build.0 = Debug|ARM
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|ARM.Deploy.0 = Debug|ARM
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|ARM64.Build.0 = Debug|ARM64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|x64.ActiveCfg = Debug|x64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|x64.Build.0 = Debug|x64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|x64.Deploy.0 = Debug|x64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|x86.ActiveCfg = Debug|x86
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|x86.Build.0 = Debug|x86
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Debug|x86.Deploy.0 = Debug|x86
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|Any CPU.ActiveCfg = Release|x86
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|ARM.ActiveCfg = Release|ARM
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|ARM.Build.0 = Release|ARM
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|ARM.Deploy.0 = Release|ARM
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|ARM64.ActiveCfg = Release|ARM64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|ARM64.Build.0 = Release|ARM64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|ARM64.Deploy.0 = Release|ARM64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|x64.ActiveCfg = Release|x64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|x64.Build.0 = Release|x64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|x64.Deploy.0 = Release|x64
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|x86.ActiveCfg = Release|x86
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|x86.Build.0 = Release|x86
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +169,7 @@ Global
 		{57B2219D-153B-4BE9-B06D-F65707A817E8} = {C1824B2F-6424-4D1C-BE6D-81CC7732D9E5}
 		{433EB1C7-E3D7-4016-99D0-F9E27A9A1395} = {C1824B2F-6424-4D1C-BE6D-81CC7732D9E5}
 		{77B983E8-5C00-493B-A26E-141D91EACFFF} = {902FC20B-AAD1-4845-80C6-7C88D7A48C95}
+		{EC11204C-05DD-44CA-86BD-BA8A9863D659} = {C1824B2F-6424-4D1C-BE6D-81CC7732D9E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30B0A262-EE0A-49BA-B83C-5E44335CBEDB}

@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="HappyStudio.Subtitle.Control.UWP.Demo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrl="using:HappyStudio.Subtitle.Control.UWP"
+    xmlns:cvt="using:HappyStudio.Subtitle.Control.UWP.Demo.Model"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <cvt:DoubleToTimeSpan x:Key="DoubleToTimeSpan"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Margin="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="4,0"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <Button Content="打开歌词文件" Click="OpenLyricsFile_Button_OnClick"/>
+            </StackPanel>
+
+            <Slider x:Name="Position_Slider" Grid.Column="1" Maximum="360" StepFrequency="0.2" ThumbToolTipValueConverter="{StaticResource DoubleToTimeSpan}"/>
+        </Grid>
+
+        <ctrl:ScrollSubtitlePreview x:Name="Main_ScrollSubtitlePreview" Grid.Row="1" Position="{Binding ElementName=Position_Slider, Path=Value, Mode=OneWay, UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleToTimeSpan}}"/>
+    </Grid>
+</Page>

@@ -23,8 +23,8 @@ namespace HappyStudio.Subtitle.Control.UWP
         public static readonly DependencyProperty CurrentLineProperty = DependencyProperty.Register(
             nameof(CurrentLine), typeof(ISubtitleLine), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null, CurrentLine_PropertyChangedCallback));
 
-        public static readonly DependencyProperty PreviousLineProperty = DependencyProperty.Register(
-            nameof(PreviousLine), typeof(ISubtitleLine), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
+        public static readonly DependencyProperty LastLineProperty = DependencyProperty.Register(
+            nameof(LastLine), typeof(ISubtitleLine), typeof(SubtitlePreviewControlBase), new PropertyMetadata(null));
 
         private static readonly TimeSpan SecondTime = TimeSpan.FromSeconds(1);
 
@@ -50,10 +50,10 @@ namespace HappyStudio.Subtitle.Control.UWP
             set => SetValue(SourceProperty, value);
         }
 
-        public ISubtitleLine PreviousLine
+        public ISubtitleLine LastLine
         {
-            get => (ISubtitleLine) GetValue(PreviousLineProperty);
-            set => SetValue(PreviousLineProperty, value);
+            get => (ISubtitleLine) GetValue(LastLineProperty);
+            set => SetValue(LastLineProperty, value);
         }
 
         public ISubtitleLine CurrentLine
@@ -178,16 +178,11 @@ namespace HappyStudio.Subtitle.Control.UWP
         private static void CurrentLine_PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var theObj = (SubtitlePreviewControlBase) d;
-            var theLine = (ISubtitleLine) e.NewValue;
-            if (theLine != null)
-            {
-                int lineId = theObj.SourceList.IndexOf(theLine);
-                theObj.PreviousLine = lineId > 0 ? theObj.SourceList[lineId - 1] : theObj.SourceList.Last();
-            }
-            else
-                theObj.PreviousLine = (ISubtitleLine) e.OldValue;
+            var newLine = (ISubtitleLine) e.NewValue;
+            var oldLine = (ISubtitleLine) e.OldValue;
+            theObj.LastLine = oldLine;
 
-            theObj.Refreshed?.Invoke(theObj, new SubtitlePreviewRefreshedEventArgs(theObj.PreviousLine, theLine));
+            theObj.Refreshed?.Invoke(theObj, new SubtitlePreviewRefreshedEventArgs(oldLine, newLine));
         }
     }
 }

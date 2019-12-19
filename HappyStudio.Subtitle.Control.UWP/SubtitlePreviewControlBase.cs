@@ -109,7 +109,7 @@ namespace HappyStudio.Subtitle.Control.UWP
             }
 
             var lastLine = SourceList.Last();
-            if (lastLine.EndTime <= lastLine.StartTime || time >= lastLine.StartTime && time < lastLine.EndTime)
+            if (lastLine.EndTime <= lastLine.StartTime && time >= lastLine.StartTime || time >= lastLine.StartTime && time < lastLine.EndTime)
             {
                 NextLineIndex = 0;
                 CurrentLine = lastLine;

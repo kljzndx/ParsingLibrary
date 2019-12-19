@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.Parsing.Subtitle;
 using HappyStudio.Parsing.Subtitle.LRC;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
@@ -40,8 +41,8 @@ namespace HappyStudio.Subtitle.Control.UWP.Demo
                 return;
 
             string content = await FileIO.ReadTextAsync(file);
-            var lrcBlock = new LrcBlock(content);
-            Main_ScrollSubtitlePreview.Source = lrcBlock.Lines;
+            var subtitleBlock = SubtitleParser.Parse(content);
+            Main_ScrollSubtitlePreview.Source = subtitleBlock.Lines;
         }
     }
 }

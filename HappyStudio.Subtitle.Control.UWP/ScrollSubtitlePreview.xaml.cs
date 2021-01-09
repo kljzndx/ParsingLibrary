@@ -23,26 +23,11 @@ namespace HappyStudio.Subtitle.Control.UWP
 {
     public sealed partial class ScrollSubtitlePreview : SubtitlePreviewControlBase
     {
-        public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
-            nameof(ItemTemplate), typeof(DataTemplate), typeof(ScrollSubtitlePreview), new PropertyMetadata(null));
-
         public ScrollSubtitlePreview()
         {
             this.InitializeComponent();
-            Binding binding = new Binding();
-            binding.Source = this;
-            binding.Path = new PropertyPath(nameof(ItemTemplate));
-            binding.Mode = BindingMode.OneWay;
-            binding.TargetNullValue = Normal_DataTemplate;
-            Main_ListView.SetBinding(ListView.ItemTemplateProperty, binding);
 
             base.Refreshed += ScrollLyricsPreview_Refreshed;
-        }
-
-        public DataTemplate ItemTemplate
-        {
-            get => (DataTemplate) GetValue(ItemTemplateProperty);
-            set => SetValue(ItemTemplateProperty, value);
         }
 
         public event ItemClickEventHandler ItemClick;

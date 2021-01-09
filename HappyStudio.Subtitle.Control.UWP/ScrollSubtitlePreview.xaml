@@ -11,18 +11,20 @@
     d:DesignWidth="400">
 
     <local:SubtitlePreviewControlBase.Resources>
-        <DataTemplate x:Name="Normal_DataTemplate">
+        <DataTemplate x:Key="LineUi_DataTemplate">
             <temp:ScrollPreviewItemTemplate Text="{Binding Content, Mode=OneWay}" IsSelected="{Binding IsSelected, Mode=OneWay}"/>
         </DataTemplate>
+        <Style x:Key="MainList_ItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="64,0"/>
+        </Style>
     </local:SubtitlePreviewControlBase.Resources>
 
     <ScrollViewer x:Name="Root_ScrollViewer">
-        <ListView x:Name="Main_ListView" ItemsSource="{x:Bind Source, Mode=OneWay}" SelectionMode="Extended" IsItemClickEnabled="True" ItemClick="Main_ListView_OnItemClick">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <ListView x:Name="Main_ListView" ItemsSource="{x:Bind Source, Mode=OneWay}"
+                  ItemContainerStyle="{StaticResource MainList_ItemContainerStyle}"
+                  ItemTemplate="{StaticResource LineUi_DataTemplate}"
+                  SelectionMode="Extended" IsItemClickEnabled="True"
+                  ItemClick="Main_ListView_OnItemClick"/>
     </ScrollViewer>
 </local:SubtitlePreviewControlBase>

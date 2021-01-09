@@ -34,6 +34,8 @@ namespace HappyStudio.Subtitle.Control.UWP.ItemTemplates
 
             if (ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.TextBlock", nameof(TextBlock.HorizontalTextAlignment)))
                 Main_TextBlock.HorizontalTextAlignment = TextAlignment.Center;
+            else
+                Main_TextBlock.HorizontalAlignment = HorizontalAlignment.Center;
         }
 
         public string Text

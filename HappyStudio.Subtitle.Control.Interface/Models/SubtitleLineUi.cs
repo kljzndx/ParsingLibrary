@@ -1,7 +1,8 @@
 ﻿using System;
+
 using HappyStudio.Parsing.Subtitle.Interfaces;
 
-namespace HappyStudio.Subtitle.Control.Interface
+namespace HappyStudio.Subtitle.Control.Interface.Models
 {
     public class SubtitleLineUi : ObservableObject, ISubtitleLineUi
     {

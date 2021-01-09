@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace HappyStudio.Subtitle.Control.Interface
+namespace HappyStudio.Subtitle.Control.Interface.Models
 {
     public class ObservableObject : INotifyPropertyChanged
     {

@@ -15,8 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.Parsing.Subtitle.Interfaces;
 using HappyStudio.Subtitle.Control.Interface.Events;
-using HappyStudio.Subtitle.Control.UWP.Models;
-using HappyStudio.Subtitle.Control.UWP.Models.Events;
+using HappyStudio.Subtitle.Control.Interface;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -38,7 +37,6 @@ namespace HappyStudio.Subtitle.Control.UWP
             Main_ListView.SetBinding(ListView.ItemTemplateProperty, binding);
 
             base.Refreshed += ScrollLyricsPreview_Refreshed;
-            this.LineHided += ScrollSubtitlePreview_LineHided;
         }
 
         public DataTemplate ItemTemplate
@@ -49,7 +47,7 @@ namespace HappyStudio.Subtitle.Control.UWP
 
         public event ItemClickEventHandler ItemClick;
 
-        private double GetItemPosition(ISubtitleLine line)
+        private double GetItemPosition(ISubtitleLineUi line)
         {
             ListViewItem container = Main_ListView.ContainerFromItem(line) as ListViewItem;
             if (container == null)
@@ -72,19 +70,12 @@ namespace HappyStudio.Subtitle.Control.UWP
                 if (theLine == null)
                 {
                     Main_ListView.SelectedIndex = -1;
-                    ItemSelectionNotifier.ChangeSelection(null);
                     return;
                 }
 
                 Main_ListView.SelectedItem = theLine;
-                ItemSelectionNotifier.ChangeSelection(theLine);
                 Root_ScrollViewer.ChangeView(null, GetItemPosition(theLine), null);
             });
-        }
-
-        private void ScrollSubtitlePreview_LineHided(object sender, ISubtitleLine e)
-        {
-            ItemSelectionNotifier.ChangeSelection(null);
         }
 
         private void Main_ListView_OnItemClick(object sender, ItemClickEventArgs e)

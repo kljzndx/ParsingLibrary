@@ -6,9 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400"
-    Loaded="ScrollPreviewItemTemplate_OnLoaded"
-    Unloaded="ScrollPreviewItemTemplate_OnUnloaded">
+    d:DesignWidth="400">
 
     <TextBlock x:Name="Main_TextBlock" Text="{x:Bind Text, Mode=OneWay}" Margin="0,8"/>
 </UserControl>
